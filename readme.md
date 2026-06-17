@@ -7,4 +7,6 @@ Tous les services utilisent une base MongoDB unique avec plusieurs collections.
 
 ## Lancement du projet
 
+```bash
 docker compose up --build -d
+```
