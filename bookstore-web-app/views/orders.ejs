@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orders</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Orders</h1>
+
+      <a href="/">← Back to Home</a>
+
+      <h2>Orders list</h2>
+
+      <% if (!orders || orders.length === 0) { %>
+        <p>No orders found.</p>
+      <% } else { %>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Date</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% for (let o of orders) { %>
+              <tr>
+                <td><%= o.customerName %></td>
+                <td><%= new Date(o.orderDate).toLocaleString() %></td>
+                <td><%= o.totalAmount %> €</td>
+                <td><%= o.status %></td>
+                <td class="actions">
+                  <a href="/orders/edit/<%= o.id %>">
+                    <button>Edit</button>
+                  </a>
+                  <a href="/orders/delete/<%= o.id %>" onclick="return confirm('Delete ?')">
+                    <button>Delete</button>
+                  </a>
+                </td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+
+      <% } %>
+
+      <hr />
+
+      <h2>Add Order</h2>
+
+      <form action="/orders/add" method="post">
+        <div>
+          <label>Customer Name</label>
+          <input type="text" name="customerName" required />
+        </div>
+
+        <div>
+          <label>Order Date</label>
+          <input type="datetime-local" name="orderDate" required />
+        </div>
+
+        <div>
+          <label>Total Amount</label>
+          <input type="number" name="totalAmount" step="0.01" required />
+        </div>
+
+        <div>
+          <label>Status</label>
+          <input type="text" name="status" required />
+        </div>
+
+        <button type="submit">Create</button>
+      </form>
+
+    </div>
+  </body>
+</html>

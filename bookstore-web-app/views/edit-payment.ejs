@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit Payment</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Edit Payment</h1>
+
+      <form method="POST" action="/payments/edit/<%= payment.id %>">
+        <div>
+          <label>Order ID</label>
+          <input type="text" name="orderId" value="<%= payment.orderId %>" />
+        </div>
+
+        <div>
+          <label>Amount</label>
+          <input
+            type="number"
+            name="amount"
+            step="0.01"
+            value="<%= payment.amount %>"
+          />
+        </div>
+
+        <div>
+          <label>Payment Date</label>
+          <input
+            type="datetime-local"
+            name="paymentDate"
+            value="<%= new Date(payment.paymentDate).toISOString().slice(0,16) %>"
+          />
+        </div>
+
+        <div>
+          <label>Payment Method</label>
+          <input
+            type="text"
+            name="paymentMethod"
+            value="<%= payment.paymentMethod %>"
+          />
+        </div>
+
+        <div>
+          <label>Status</label>
+          <input type="text" name="status" value="<%= payment.status %>" />
+        </div>
+
+        <button type="submit">Update</button>
+      </form>
+
+      <a href="/payments">← Back</a>
+    </div>
+  </body>
+</html>

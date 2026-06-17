@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventory</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Book Inventory</h1>
+
+      <a href="/">← Back to Home</a>
+
+      <h2>Books list</h2>
+
+      <% if (!books || books.length === 0) { %>
+        <p>No books found.</p>
+      <% } else { %>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% for (let book of books) { %>
+              <tr>
+                <td><%= book.title %></td>
+                <td><%= book.author %></td>
+                <td><%= book.price %> €</td>
+                <td><%= book.stock %></td>
+                <td class="actions">
+                  <a href="/inventory/edit/<%= book.id %>">
+                    <button>Edit</button>
+                  </a>
+                  <a href="/inventory/delete/<%= book.id %>" onclick="return confirm('Delete this book ?')">
+                    <button>Delete</button>
+                  </a>
+                </td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+
+      <% } %>
+
+      <hr />
+
+      <h2>Add Book</h2>
+
+      <form action="/inventory/add" method="post">
+        <div>
+          <label>Title</label>
+          <input type="text" name="title" required />
+        </div>
+
+        <div>
+          <label>Author</label>
+          <input type="text" name="author" required />
+        </div>
+
+        <div>
+          <label>Price</label>
+          <input type="number" name="price" step="0.01" required />
+        </div>
+
+        <div>
+          <label>Stock</label>
+          <input type="number" name="stock" required />
+        </div>
+
+        <button type="submit">Create</button>
+      </form>
+
+    </div>
+  </body>
+</html>

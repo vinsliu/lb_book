@@ -1,0 +1,67 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  inventory-service:
+    build: ./inventory-service
+    container_name: inventory-service
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/bookstore
+
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/bookstore
+
+  payment-service:
+    build: ./payment-service
+    container_name: payment-service
+    ports:
+      - "3002:3002"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/bookstore
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "9001:9001"
+    depends_on:
+      - inventory-service
+      - order-service
+      - payment-service
+    environment:
+      - INVENTORY_URL=http://inventory-service:3000
+      - ORDER_URL=http://order-service:3001
+      - PAYMENT_URL=http://payment-service:3002
+
+  bookstore-web-app:
+    build: ./bookstore-web-app
+    container_name: bookstore-web-app
+    ports:
+      - "8080:3000"
+    depends_on:
+      - api-gateway
+    environment:
+      - API_GATEWAY=http://api-gateway:9001
+
+volumes:
+  mongo-data:

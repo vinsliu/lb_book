@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payments</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Payments</h1>
+
+      <a href="/">← Back to Home</a>
+
+      <h2>Payments list</h2>
+
+      <% if (!payments || payments.length === 0) { %>
+        <p>No payments found.</p>
+      <% } else { %>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Method</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% for (let p of payments) { %>
+              <tr>
+                <td><%= p.orderId %></td>
+                <td><%= p.amount %> €</td>
+                <td><%= new Date(p.paymentDate).toLocaleString() %></td>
+                <td><%= p.paymentMethod %></td>
+                <td><%= p.status %></td>
+                <td class="actions">
+                  <a href="/payments/edit/<%= p.id %>">
+                    <button>Edit</button>
+                  </a>
+                  <a href="/payments/delete/<%= p.id %>" onclick="return confirm('Delete ?')">
+                    <button>Delete</button>
+                  </a>
+                </td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+
+      <% } %>
+
+      <hr />
+
+      <h2>Add Payment</h2>
+
+      <form action="/payments/add" method="post">
+        <div>
+          <label>Order ID</label>
+          <input type="text" name="orderId" required />
+        </div>
+
+        <div>
+          <label>Amount</label>
+          <input type="number" name="amount" step="0.01" required />
+        </div>
+
+        <div>
+          <label>Payment Date</label>
+          <input type="datetime-local" name="paymentDate" required />
+        </div>
+
+        <div>
+          <label>Payment Method</label>
+          <input type="text" name="paymentMethod" required />
+        </div>
+
+        <div>
+          <label>Status</label>
+          <input type="text" name="status" required />
+        </div>
+
+        <button type="submit">Create</button>
+      </form>
+
+    </div>
+  </body>
+</html>
