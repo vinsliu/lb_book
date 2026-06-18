@@ -56,6 +56,11 @@ app.post("/inventory", async (req, res) => {
   res.status(result.status).json(result.data);
 });
 
+app.get("/inventory/:id", async (req, res) => {
+  const result = await forward(`${INVENTORY}/${req.params.id}`);
+  res.status(result.status).json(result.data);
+});
+
 app.put("/inventory/:id", async (req, res) => {
   const result = await forward(`${INVENTORY}/${req.params.id}`, {
     method: "PUT",
@@ -90,6 +95,11 @@ app.post("/orders", async (req, res) => {
   res.status(result.status).json(result.data);
 });
 
+app.get("/orders/:id", async (req, res) => {
+  const result = await forward(`${ORDERS}/${req.params.id}`);
+  res.status(result.status).json(result.data);
+});
+
 app.put("/orders/:id", async (req, res) => {
   const result = await forward(`${ORDERS}/${req.params.id}`, {
     method: "PUT",
@@ -121,6 +131,11 @@ app.post("/payments", async (req, res) => {
     body: JSON.stringify(req.body),
   });
 
+  res.status(result.status).json(result.data);
+});
+
+app.get("/payments/:id", async (req, res) => {
+  const result = await forward(`${PAYMENTS}/${req.params.id}`);
   res.status(result.status).json(result.data);
 });
 
